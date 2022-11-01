@@ -2,6 +2,7 @@ import React from 'react';
 import RemindersScreen from '../screens/Reminders';
 import PrioritiesScreen from '../screens/Priorities';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import AddPriorityScreen from '../screens/AddPriority';
 
 const Tab = createBottomTabNavigator();
 

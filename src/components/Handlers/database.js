@@ -4,6 +4,7 @@ import { openDatabase } from "react-native-sqlite-storage";
 // use hook to create database
 const myRemindersDB = openDatabase({name: 'MyReminders.db'});
 const remindersTableName = 'reminders';
+const priorityTableName = 'priorities';
 
 module.exports = {
     // declare function that will create the reminders table
@@ -46,6 +47,39 @@ module.exports = {
                 },
                 error => {
                     console.log('Error adding reminder ' + error.message);
+                },
+            );
+        });
+    },
+    createPriorityTable: async function () {
+        (await myRemindersDB).transaction(txn => {
+            txn.executeSql(
+                `CREATE TABLE IF NOT EXISTS ${priorityTableName}(
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    title TEXT,
+                    description TEXT,
+                );`,
+                [],
+                () => {
+                    console.log('Priorities table created successfully');
+                },
+                error => {
+                    console.log('Error creating Priorities table ' + error.message);
+                },
+            );
+        });
+    },
+
+    addPriority: async function (title, description) {
+        (await myRemindersDB).transaction(txn => {
+            txn.executeSql(
+                `INSERT INTO ${priorityTableName} (title, description) VALUES ("${title}", "${description}")`,
+                [],
+                () => {
+                    console.log(title + " added successfully");
+                },
+                error => {
+                    console.log('Error adding priority ' + error.message);
                 },
             );
         });
